@@ -54,7 +54,7 @@ function App() {
           animationDuration={0.5}
           staggerDelay={0.12}
         />
-        ;
+        
       </nav>
     </>
   );
