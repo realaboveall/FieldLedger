@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sirivennela&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-Merriweather: "Merriweather", serif;
   --font-Nunito: "Nunito", sans-serif;
   --font-Sirivennela: "Sirivennela", sans-serif;
+  --font-Orbitron: "Orbitron", "sans-serif";
 }
 
 .chatbox {
