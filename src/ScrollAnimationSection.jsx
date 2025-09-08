@@ -10,9 +10,9 @@ const CONTENT = {
   title: "Field",
   tille2: "Ledger",
   subtitle:
-    "Bringing Transparency to your plate with Ethereum, Polygon and Solidity",
+    "Bringing Transparency to your plate with Ethereum, Polygon and Solidity.",
   textLines: ["We Make Sure that the Food you eat is "],
-  ctaText: "Explore Now",
+  ctaText: "", //Bottom Button Text
   icons: [
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/ethereum.png",
@@ -154,7 +154,7 @@ const ScrollAnimationSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="min-h-screen bg-[#effaf6]/85 flex flex-col items-center justify-center relative overflow-hidden">
+      className="min-h-screen bg-[#effaf6]/60 flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-primary opacity-10" />
 
@@ -164,13 +164,13 @@ const ScrollAnimationSection = () => {
         <div className="mb-16">
           <h1
             ref={titleRef}
-            className="text-6xl md:text-8xl font-Orbitron font-extrabold text-white-200 text-shadow-lg/20 mb-6 hover:text-green-500 underline-">
+            className="text-6xl md:text-8xl font-mono font-bold text-white-200 text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
             {CONTENT.title}
-            <h2 className="inline text-green-500 hover:text-black">Ledger</h2>
+            <h2 className="inline text-green-500">Ledger</h2>
           </h1>
           <p
             ref={subtitleRef}
-            className="text-xl md:text-2xl text-muted-foreground font-Nunito font-light tracking-wide ">
+            className="text-3xl text-muted-foreground font-Nunito font-light tracking-wide ">
             {CONTENT.subtitle}
           </p>
         </div>
@@ -203,9 +203,17 @@ const ScrollAnimationSection = () => {
                   texts={[
                     "Unadultered.",
                     "Fresh.",
-                    "Priced Correctly.",
+                    "Safe",
+                    "Wholesome.",
+                    "Sustainable.",
+                    "Traceable.",
+                    "Nutritious.",
+                    "Hygienic.",
+                    "Uncompromised.",
+                    "Natural.",
                     "Authentic.",
-                    "More Soon...",
+                    "Ethically Produced.",
+                    "Priced Correctly.",
                   ]}
                   mainClassName="font-Nunito font-extrabold text-green-400 rounded-lg px-2 py-2 flex justify-center items-center text-shadow-lg/30 text-8xl"
                   staggerFrom={"first"}
