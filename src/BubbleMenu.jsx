@@ -24,9 +24,9 @@ const DEFAULT_ITEMS = [
     hoverStyles: { bgColor: "#f59e0b", textColor: "#ffffff" },
   },
   {
-    label: "about",
-    href: "#",
-    ariaLabel: "Blog",
+    label: "Login",
+    href: "/login",
+    ariaLabel: "Login",
     rotation: 8,
     hoverStyles: { bgColor: "#ef4444", textColor: "#ffffff" },
   },
@@ -253,7 +253,6 @@ export default function BubbleMenu({
             )}
           </span>
         </div>
-
         <button
           type="button"
           className={[
