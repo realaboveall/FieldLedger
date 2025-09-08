@@ -2,12 +2,21 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '@/auth/UserContext';
+import { Spinner } from '@/components/ui/shadcn-io/spinner/index';
 
 const ProtectedRoute = ({ children }) => {
-    const { user } = useUser();
+    const { user, loading } = useUser();
 
-    if (!user) {
-        return <Navigate to="/login" replace />;
+    if (loading && !user) {
+        return (
+            <div className='h-[100vh] w-full flex justify-center items-center '>
+                <Spinner variant="circle" size={50}/>
+            </div>
+        );
+    }
+
+    if (!user && !loading) {
+        return (<Navigate to="/login" replace />);
     }
     return children;
 };

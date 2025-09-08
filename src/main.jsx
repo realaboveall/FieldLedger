@@ -4,7 +4,7 @@ import "./index.css";
 import Login from "./abhay/login.jsx";
 import Landingpage from "./landingpage.jsx";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from "./abhay/Dashboard";
+import Dashboard from "./abhay/dashboard/Dashboard";
 import ProtectedRoute from './ProtectedRoute.jsx';
 import { UserProvider } from '@/auth/UserContext';
 
