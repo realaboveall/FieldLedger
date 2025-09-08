@@ -1,16 +1,34 @@
-import { StrictMode } from "react";
+import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
-import Home from "./Home.jsx";
-import Problem from "./Problem.jsx";
-import Chatbox from "./Chatbox.jsx";
+import Login from "./abhay/login.jsx";
+import Landingpage from "./Landingpage.jsx";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from "./abhay/Dashboard";
+import ProtectedRoute from './ProtectedRoute.jsx';
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Home />
-    <Chatbox />
-    <App />
-    <Problem />
-  </StrictMode>
-);
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  return (
+    <StrictMode>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landingpage />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </StrictMode>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
+

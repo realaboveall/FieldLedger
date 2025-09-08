@@ -24,8 +24,8 @@ const items = [
     hoverStyles: { bgColor: "#f59e0b", textColor: "#ffffff" },
   },
   {
-    label: "about",
-    href: "#",
+    label: "login",
+    href: "/login",
     ariaLabel: "Blog",
     rotation: 8,
     hoverStyles: { bgColor: "#ef4444", textColor: "#ffffff" },
