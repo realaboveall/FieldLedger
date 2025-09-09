@@ -362,10 +362,7 @@ export const StaggeredMenu = ({
   return (
     <div className="sm-scope w-full h-full">
       <div
-        className={
-          (className ? className + " " : "") +
-          "staggered-menu-wrapper relative w-full h-full z-40"
-        }
+        className={(className ? className + " " : "") + ""}
         style={accentColor ? { ["--sm-accent"]: accentColor } : undefined}
         data-position={position}
         data-open={open || undefined}>

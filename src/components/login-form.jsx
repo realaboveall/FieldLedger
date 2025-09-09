@@ -1,39 +1,38 @@
-import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import placeholder from '@/assets/placeholder.jpg'
-import { useNavigate } from 'react-router-dom';
-import { useUser } from "@/auth/UserContext"
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import placeholder from "@/assets/placeholder.jpg";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@/auth/UserContext";
 
 export function LoginForm({ className, ...props }) {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user,login} = useUser()
+  const { user, login } = useUser();
 
-  useEffect(()=>{
-    if(user){
-      navigate('/dashboard', { replace: true });
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      // navigate('/dashboard', { replace: true });
     }
-  },[user])
+  }, [user]);
 
   const handleLogin = async () => {
     try {
       setLoading(true);
-      login(email,password)
-      console.log('Logged in!');
+      login(email, password);
+      console.log("Logged in!");
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -49,7 +48,14 @@ export function LoginForm({ className, ...props }) {
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -58,12 +64,20 @@ export function LoginForm({ className, ...props }) {
                     Forgot your password?
                   </a> */}
                 </div>
-                <Input id="password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
+                <Input
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  required
+                />
               </div>
-              <Button type="submit" className="w-full" onClick={handleLogin} disabled={loading}>
-                {
-                  loading ? "Please Wait" : "Login"
-                }
+              <Button
+                type="submit"
+                className="w-full"
+                onClick={handleLogin}
+                disabled={loading}>
+                {loading ? "Please Wait" : "Login"}
               </Button>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
@@ -77,11 +91,11 @@ export function LoginForm({ className, ...props }) {
             <img
               src={placeholder}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            />
           </div>
         </CardContent>
       </Card>
     </div>
   );
 }
-
