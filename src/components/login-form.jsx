@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import placeholder from '@/assets/placeholder.jpg'
 import { useNavigate } from 'react-router-dom';
-import { useUser } from "@/auth/UserContext"
+// import { useUser } from "@/auth/UserContext"
 
 export function LoginForm({ className, ...props }) {
 
@@ -14,25 +14,27 @@ export function LoginForm({ className, ...props }) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user,login} = useUser()
+  // const {user,login} = useUser()
 
-  useEffect(()=>{
-    if(user){
-      navigate('/dashboard', { replace: true });
-    }
-  },[user])
+  // useEffect(()=>{
+  //   if(user){
+  //     navigate('/dashboard', { replace: true });
+  //   }
+  // },[user])
 
-  const handleLogin = async () => {
-    try {
-      setLoading(true);
-      login(email,password)
-      console.log('Logged in!');
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleLogin = async () => {
+  //   const navigate = useNavigate()
+  //   navigate('/dashboard', { replace: true });
+    // try {
+    //   setLoading(true);
+    //   login(email,password)
+    //   console.log('Logged in!');
+    // } catch (error) {
+    //   console.error('Login failed:', error);
+    // } finally {
+    //   setLoading(false);
+    // }
+  // };
 
 
   return (
@@ -60,7 +62,7 @@ export function LoginForm({ className, ...props }) {
                 </div>
                 <Input id="password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
               </div>
-              <Button type="submit" className="w-full" onClick={handleLogin} disabled={loading}>
+              <Button  className="w-full" onClick={navigate('/dashboard', { replace: true })} disabled={loading}>
                 {
                   loading ? "Please Wait" : "Login"
                 }

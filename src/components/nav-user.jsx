@@ -29,7 +29,7 @@ import {
 import grayuser from "@/assets/grayuser.png"
 
 export function NavUser({
-  user
+  
 }) {
   const { isMobile } = useSidebar()
 
@@ -40,11 +40,11 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={grayuser} alt={user.name} />
+                {/* <AvatarImage src={grayuser} alt={user.name} /> */}
                 <AvatarFallback className="rounded-lg"></AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name.charAt(0).toUpperCase()+user.name.slice(1)}</span>
+                {/* <span className="truncate font-medium">{user.name.charAt(0).toUpperCase()+user.name.slice(1)}</span> */}
                 <span className="text-muted-foreground truncate text-xs">
                   {user.email}
                 </span>

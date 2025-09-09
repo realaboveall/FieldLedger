@@ -67,7 +67,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ user,setPage,page, ...props}) {
+export function AppSidebar({setPage,page, ...props}) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -86,7 +86,7 @@ export function AppSidebar({ user,setPage,page, ...props}) {
         <NavMain items={data.navMain} setPage={setPage} page={page}/>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        {/* <NavUser  /> */}
       </SidebarFooter>
     </Sidebar>
   );

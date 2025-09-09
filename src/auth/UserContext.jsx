@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             await account.createEmailPasswordSession(email, password);
-            await getUser();
+            // await getUser();
         } catch (error) {
             console.error('Login error:', error);
         }
@@ -37,9 +37,9 @@ export const UserProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        getUser();
-    }, []);
+    // useEffect(() => {
+    //     getUser();
+    // }, []);
 
     return (
         <UserContext.Provider value={{ user, loading, login, logout }}>

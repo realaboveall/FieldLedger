@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useUser } from '@/auth/UserContext';
+// import { useUser } from '@/auth/UserContext';
 import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
 
-import data from "./data.json"
 import ProductDetailsForm from './ProductDetailsForm';
 
 export default function Dashboard() {
-  const { user, loading, logout } = useUser();
+  // const { user, loading, logout } = useUser();
+  const [user,setUser] = useState("")
   const [page,setPage] = useState('Form') 
 
   useEffect(()=>{console.log(page)},[page])
 
   return (
     <div className=''>
-      <SidebarProvider
+       <SidebarProvider
         style={
           {
             "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -29,10 +26,10 @@ export default function Dashboard() {
           } 
         }
       >
-        <AppSidebar variant="inset" user={user} setPage={setPage} page={page}/>
+         <AppSidebar variant="inset"  setPage={setPage} page={page}/> 
+        
 
-
-        <SidebarInset>
+         <SidebarInset>
           <SiteHeader page={page}/>
           <div className="flex flex-1 flex-col">
             <div className="@container/main flex flex-1 flex-col gap-2">
@@ -41,8 +38,9 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </SidebarInset>
-      </SidebarProvider>
+        </SidebarInset> 
+
+      </SidebarProvider> 
     </div>
   )
 }

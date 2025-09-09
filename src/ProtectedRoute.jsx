@@ -8,17 +8,17 @@ const ProtectedRoute = ({ children }) => {
     const { user, loading } = useUser();
 
 
-    if (loading && !user) {
-        return (
-            <div className='h-[100vh] w-full flex justify-center items-center '>
-                <Spinner variant="circle" size={50}/>
-            </div>
-        );
-    }
+    // if (loading && !user) {
+    //     return (
+    //         <div className='h-[100vh] w-full flex justify-center items-center '>
+    //             <Spinner variant="circle" size={50}/>
+    //         </div>
+    //     );
+    // }
 
-    if (!user && !loading) {
-        return (<Navigate to="/login" replace />);
-    }
+    // if (!user && !loading) {
+    //     return (<Navigate to="/login" replace />);
+    // }
     return children;
 };
 
