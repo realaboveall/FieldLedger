@@ -2,7 +2,7 @@ import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import Login from "./abhay/login.jsx";
-import Landingpage from "./Landingpage.jsx";
+import Landingpage from "@/Landingpage.jsx";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from "./abhay/dashboard/Dashboard";
 import ProtectedRoute from './ProtectedRoute.jsx';

@@ -8,7 +8,7 @@ import Navbar from "./Navbar.jsx";
 import ScrollAnimationSectionNodes from "./ScrollAnimationSectionNodes.jsx";
 import FloatMenu from "./FloatMenu.jsx";
 
-export default function Landingpage() {
+function Landingpage() {
   return (
     <div>
       {/* <Navbar /> */}
@@ -21,4 +21,4 @@ export default function Landingpage() {
   );
 }
 
-// export default Landingpage
+export default Landingpage
