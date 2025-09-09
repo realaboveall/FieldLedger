@@ -7,16 +7,18 @@ import ScrollAnimationSection from "./ScrollAnimationSection.jsx";
 import Navbar from "./Navbar.jsx";
 import ScrollAnimationSectionNodes from "./ScrollAnimationSectionNodes.jsx";
 import FloatMenu from "./FloatMenu.jsx";
+import Footer from "./footer.jsx";
 
 export default function Landingpage() {
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
       {/* <App /> */}
       <Home />
       {/* <Chatbox /> */}
-      <ScrollAnimationSectionNodes />
+      {/* <ScrollAnimationSectionNodes /> */}
       {/* <Problem /> */}
+      <Footer />
     </div>
   );
 }

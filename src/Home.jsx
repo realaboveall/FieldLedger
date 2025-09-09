@@ -8,6 +8,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
 import FloatMenu from "./FloatMenu";
+import HowItWorksSection from "./HowItWorks";
+import FeaturesSection from "./Features";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,9 +30,9 @@ export default function Home() {
   return (
     <div className="w-full h-full relative">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-40">
+      {/* <div className="fixed top-0 left-0 w-full z-40 pointer-events-none:">
         <FloatMenu />
-      </nav>
+      </div> */}
 
       {/* Background Video */}
       <video
@@ -85,6 +87,8 @@ export default function Home() {
       {/* Scroll Animation Section */}
       <section className="bg-black/90 relative z-0">
         <ScrollAnimationSection />
+        <HowItWorksSection />
+        <FeaturesSection />
       </section>
 
       {/* Example Other Sections (commented in your code) */}
