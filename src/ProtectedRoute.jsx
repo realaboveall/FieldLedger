@@ -7,7 +7,6 @@ import { Spinner } from '@/components/ui/shadcn-io/spinner/index';
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useUser();
 
-    useEffect(()=>{console.log(user)},[user])
 
     if (loading && !user) {
         return (
