@@ -4,12 +4,12 @@ import logo from "./vite.svg";
 const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
   { label: "Login", ariaLabel: "Learn about us", link: "/login" },
-  { label: "Services", ariaLabel: "View our services", link: "/services" },
-  { label: "Contact", ariaLabel: "Get in touch", link: "/contact" },
+  { label: "Solution", ariaLabel: "View our services", link: "/solution" },
+  { label: "Flow", ariaLabel: "Get in touch", link: "/flow" },
 ];
 
 const socialItems = [
-  { label: "Twitter", link: "https://twitter.com" },
+  { label: "Kiet", link: "https://kiet.edu" },
   { label: "GitHub", link: "https://github.com" },
   { label: "LinkedIn", link: "https://linkedin.com" },
 ];

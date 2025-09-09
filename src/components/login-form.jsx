@@ -9,9 +9,8 @@ import { useNavigate } from 'react-router-dom';
 // import { useUser } from "@/auth/UserContext"
 
 export function LoginForm({ className, ...props }) {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const {user,login} = useUser()
@@ -51,7 +50,14 @@ export function LoginForm({ className, ...props }) {
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -60,7 +66,13 @@ export function LoginForm({ className, ...props }) {
                     Forgot your password?
                   </a> */}
                 </div>
-                <Input id="password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
+                <Input
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  required
+                />
               </div>
               <Button  className="w-full" onClick={navigate('/dashboard', { replace: true })} disabled={loading}>
                 {
@@ -79,11 +91,11 @@ export function LoginForm({ className, ...props }) {
             <img
               src={placeholder}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            />
           </div>
         </CardContent>
       </Card>
     </div>
   );
 }
-
