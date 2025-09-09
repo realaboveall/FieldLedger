@@ -28,12 +28,12 @@ export function NavMain({
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <SidebarMenuButton tooltip="Chatbot" onClick={() => setPage("Chatbot")} className={page === 'Chatbot' && "bg-[#9eb38d]"} >
               <FontAwesomeIcon icon={faRobot} />
               <span>AI Chatbot</span>
             </SidebarMenuButton>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
 
           <SidebarMenuItem>
             <SidebarMenuButton tooltip="Transactions" onClick={() => setPage("Transactions")} className={page === 'Transactions' && "bg-[#9eb38d]"}>
