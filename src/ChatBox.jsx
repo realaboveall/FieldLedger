@@ -101,17 +101,17 @@ const Chatbox = () => {
   };
 
   return (
-    <div className="chatbox relative">
+    <div className="chatbox ">
       {/* Chatbox Button */}
-      <div className="chatbox__button bottom-2 right-5">
+      {/* <div className="chatbox__button bottom-2 right-5">
         <button onClick={toggleState} id="btnnn">
           <img src={logo} alt="icon" className="w-20" />
         </button>
-      </div>
+      </div> */}
 
       {/* Chatbox Support */}
       <div
-        className={`chatbox__support ${state ? "chatbox--active" : ""}`}
+        className={`chatbox__support ${true ? "chatbox--active" : ""}`}
         ref={chatboxRef}>
         {/* Header */}
         <div className="chatbox__header">

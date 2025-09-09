@@ -15,8 +15,8 @@
 }
 
 .chatbox {
-  position: absolute;
-  z-index: 100;
+  /* position: */
+  /* z-index: 100; */
 }
 
 .body {
@@ -37,23 +37,24 @@ html {
 }
 
 .chatbox__support {
-  position: fixed;
-  right: 25px;
-  bottom: 60px;
+  /* position: fixed; */
+  /* right: 25px; */
+  /* bottom: 60px; */
   display: none;
   flex-direction: column;
   background: #eee;
-  width: 400px;
-  height: 450px;
-  z-index: -123456;
+  
+  /* z-index: -123456; */
+  width: fit-content;
+  height: fit-content;
   opacity: 0;
   transition: all 0.5s ease-in-out;
 }
 
 .chatbox--active {
   display: flex;
-  scale: 125%;
-  transform: translate(-40px, -85px);
+  /* scale: 125%; */
+  /* transform: translate(-40px, -85px); */
   z-index: 123456;
   opacity: 1;
 }
@@ -207,9 +208,9 @@ html {
   background: white;
   border: none;
   outline: none;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border-bottom-left-radius: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }

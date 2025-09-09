@@ -1,11 +1,12 @@
 // ProtectedRoute.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '@/auth/UserContext';
 import { Spinner } from '@/components/ui/shadcn-io/spinner/index';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useUser();
+
 
     if (loading && !user) {
         return (
