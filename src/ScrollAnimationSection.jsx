@@ -154,7 +154,7 @@ const ScrollAnimationSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="min-h-screen bg-[#effaf6]/60 flex flex-col items-center justify-center relative overflow-hidden">
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-primary opacity-10" />
 
@@ -164,13 +164,13 @@ const ScrollAnimationSection = () => {
         <div className="mb-16">
           <h1
             ref={titleRef}
-            className="text-6xl md:text-8xl font-mono font-bold text-white-200 text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
+            className="text-6xl md:text-8xl font-mono font-bold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
             {CONTENT.title}
             <h2 className="inline text-green-500">Ledger</h2>
           </h1>
           <p
             ref={subtitleRef}
-            className="text-3xl text-muted-foreground font-Nunito font-light tracking-wide ">
+            className="text-3xl font-Nunito font-light tracking-wide text-white">
             {CONTENT.subtitle}
           </p>
         </div>
@@ -196,7 +196,7 @@ const ScrollAnimationSection = () => {
           {CONTENT.textLines.map((line, index) => (
             <p
               key={index}
-              className="font-Nunito font-light text-5xl text-foreground/80 leading-relaxed">
+              className="font-Nunito font-light text-5xl leading-relaxed text-white">
               {line}
               <h1>
                 <RText
