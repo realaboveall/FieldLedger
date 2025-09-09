@@ -4,7 +4,7 @@ import logo from "./vite.svg";
 
 export default function Navbar() {
   return (
-    <div className="h-screen">
+    <div className="h-screen fixed left-125 ">
       <nav>
         <PillNav
           logo={logo}
@@ -12,14 +12,14 @@ export default function Navbar() {
           items={[
             { label: "Home", href: "/" },
             { label: "About", href: "/about" },
-            { label: "Services", href: "/services" },
+            { label: "Login", href: "/login" },
             { label: "Contact", href: "/contact" },
           ]}
           activeHref="/"
           className="custom-nav"
           ease="power2.easeOut"
           baseColor="#000000"
-          pillColor="#ffffff"
+          pillColor="#00FA9A"
           hoveredPillTextColor="#ffffff"
           pillTextColor="#000000"
         />
