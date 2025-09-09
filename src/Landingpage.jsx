@@ -14,7 +14,7 @@ export default function Landingpage() {
       {/* <Navbar /> */}
       {/* <App /> */}
       <Home />
-      <Chatbox />
+      {/* <Chatbox /> */}
       <ScrollAnimationSectionNodes />
       {/* <Problem /> */}
     </div>
