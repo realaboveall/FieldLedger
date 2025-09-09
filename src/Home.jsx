@@ -79,7 +79,7 @@ export default function Home() {
             </p>
           </div>
         </section>
-        <section className="bg-[#effaf6]/25">
+        <section className="bg-black/90">
           <ScrollAnimationSection />
         </section>
         {/* <section className="h-screen bg-white text-4xl font-semibold shadow-2xl relative overflow-hidden ">
