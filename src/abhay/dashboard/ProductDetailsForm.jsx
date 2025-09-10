@@ -1,8 +1,8 @@
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { toast } from "sonner"
-import { Button } from "@/components/ui/button"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -10,31 +10,36 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import Chatbox from "@/ChatBox"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Chatbox from "@/ChatBox";
+import { useUser } from "@/auth/UserContext";
 
+// ✅ Validation schema
 const formSchema = z.object({
-    productname: z.string().min(1, "Product name is required"),
-    amount: z.number(),
-    fromaddress: z.string(),
-    toaddress: z.string()
+    product_name: z.string().min(1, "Product name is required"),
+    amount: z.coerce.number(),
+    goingfrom: z.string().min(1, "Address is required"),
+    goingto: z.string().min(1, "Address is required"),
 });
 
 export default function ProductDetailsForm() {
+    const { uploadDetails } = useUser();
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            productname: "",
+            product_name: "",
             amount: 0,
-            fromaddress: "",
-            toaddress: ""
-        }
+            goingfrom: "",
+            goingto: ""
+        },
     });
 
-    const onSubmit = (values) => {
+    const onSubmit = async (values) => {
         try {
+            await uploadDetails(values);
             console.log(values);
             toast(
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
@@ -45,18 +50,18 @@ export default function ProductDetailsForm() {
             console.error("Form submission error", error);
             toast.error("Failed to submit the form. Please try again.");
         }
-    }
+    };
 
     return (
-        <div className="">
+        <div>
             <div className="text-4xl font-bold mb-3">Product Details Form</div>
-            <div className="flex ">
-                <div className="w-[40%] mt-3 border-2 rounded-lg px-10 mr-10" >
+            <div className="flex">
+                <div className="w-[40%] mt-3 border-2 rounded-lg px-10 mr-10">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-xl py-10 ">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-xl py-10">
                             <FormField
                                 control={form.control}
-                                name="productname"
+                                name="product_name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Product Name</FormLabel>
@@ -84,7 +89,7 @@ export default function ProductDetailsForm() {
 
                             <FormField
                                 control={form.control}
-                                name="fromaddress"
+                                name="goingfrom"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Address of Going From</FormLabel>
@@ -98,7 +103,7 @@ export default function ProductDetailsForm() {
 
                             <FormField
                                 control={form.control}
-                                name="toaddress"
+                                name="goingto"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Going To</FormLabel>
@@ -114,7 +119,7 @@ export default function ProductDetailsForm() {
                         </form>
                     </Form>
                 </div>
-                <div className="w-[40%] mt-3 border-2 rounded-lg flex justify-center items-center h-[80vh] " >
+                <div className="w-[40%] mt-3 border-2 rounded-lg flex justify-center items-center h-[80vh]">
                     <Chatbox />
                 </div>
             </div>
