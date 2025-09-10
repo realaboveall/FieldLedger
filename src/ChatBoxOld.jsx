@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import logo from "./vite.svg";
+import logo from "./logo.png";
 const Chatbox = () => {
   const [state, setState] = useState(false); // Open/closed state
   const [messages, setMessages] = useState([]); // Chat messages

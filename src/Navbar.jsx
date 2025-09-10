@@ -1,6 +1,6 @@
 import { nav } from "motion/react-client";
 import PillNav from "./PillNav";
-import logo from "./vite.svg";
+import logo from "./logo.png";
 
 import { useState, useEffect } from "react";
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import logo from "./vite.svg";
+import logo from "./logo.png";
 
 // --- Typewriter Component ---
 const TypewriterMessage = ({ text, speed = 40, onDone }) => {

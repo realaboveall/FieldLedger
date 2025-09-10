@@ -1,5 +1,5 @@
 import StaggeredMenu from "./StaggeredMenu";
-import logo from "./vite.svg";
+import logo from "./logo.png";
 
 const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
