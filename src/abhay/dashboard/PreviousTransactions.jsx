@@ -13,19 +13,17 @@ import {
 
 function PreviousTransactions() {
     const { retrieveData } = useUser();
-    const [products, setProducts] = useState([]); // ✅ Initialize as empty array
+    const [products, setProducts] = useState([]); 
 
-    // ✅ Logging the products state when it updates
     useEffect(() => {
         console.log(products);
     }, [products]);
 
-    // ✅ Retrieve data on component mount
     useEffect(() => {
         async function retrieve() {
             try {
                 const result = await retrieveData();
-                setProducts(result); // ✅ Update state with fetched data
+                setProducts(result); 
             } catch (error) {
                 console.error("Error retrieving data:", error);
             }
