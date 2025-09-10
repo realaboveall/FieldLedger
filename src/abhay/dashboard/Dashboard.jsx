@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sidebar"
 
 import ProductDetailsForm from './ProductDetailsForm';
+import { useUser } from '@/auth/UserContext';
 
 export default function Dashboard() {
   // const { user, loading, logout } = useUser();

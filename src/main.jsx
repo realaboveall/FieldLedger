@@ -16,16 +16,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Landingpage />} />
           <Route path="/login" element={
+            <UserProvider>
               <Login />
+            </UserProvider>
           } />
           <Route
             path="/dashboard"
             element={
-              // <UserProvider>
-              //   <ProtectedRoute>
+              <UserProvider>
+                <ProtectedRoute>
                   <Dashboard />
-              //   </ProtectedRoute>
-              // </UserProvider>
+                </ProtectedRoute>
+              </UserProvider>
             }
           />
         </Routes>
