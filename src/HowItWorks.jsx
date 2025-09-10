@@ -44,11 +44,11 @@ const HowItWorksSection = () => {
     <section className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
-          <h1 className="text-6xl font-Orbitron font-bold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer">
+          <h1 className="text-6xl font-Nunito font-bold text-white text-shadow-lg/20 mb-6 hover:underline hover:tracking-widest cursor-pointer hover:text-green-500">
             How
-            <h1 className="text-6xl font-Orbitron font-extrabold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer inline">
+            <h1 className="text-6xl font-Nunito font-extrabold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer inline mr-6 ml-6 hover:text-green-500">
               Field
-              <h2 className="inline text-green-500">Ledger</h2>
+              <h2 className="inline text-green-500 hover:text-white">Ledger</h2>
             </h1>
             Works
           </h1>
@@ -75,7 +75,7 @@ const HowItWorksSection = () => {
                     <h3 className="text-xl font-semibold text-gray-900">
                       {step.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 leading-relaxed font-Nunito font-light">
                       {step.description}
                     </p>
                   </div>

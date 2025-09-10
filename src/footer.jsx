@@ -16,8 +16,6 @@ const Footer = () => {
       title: "Product",
       links: [
         { name: "Features", href: "#" },
-        { name: "Pricing", href: "#" },
-        { name: "API", href: "#" },
         { name: "Documentation", href: "#" },
       ],
     },
@@ -25,18 +23,17 @@ const Footer = () => {
       title: "Company",
       links: [
         { name: "About Us", href: "#" },
-        { name: "Careers", href: "#" },
-        { name: "Blog", href: "#" },
-        { name: "Press", href: "#" },
+        { name: "Working", href: "#" },
+        { name: "Flow", href: "#" },
       ],
     },
     {
       title: "Support",
       links: [
-        { name: "Help Center", href: "#" },
-        { name: "Community", href: "#" },
-        { name: "Contact", href: "#" },
-        { name: "Status", href: "#" },
+        { name: "Farmer", href: "#" },
+        { name: "Merchant", href: "#" },
+        { name: "Wholeseller", href: "#" },
+        { name: "Customer", href: "#" },
       ],
     },
   ];
@@ -72,15 +69,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-600">
                 <Mail className="w-5 h-5" />
-                <span>hello@FieldLedger.com</span>
+                <span>time.atulya@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
                 <Phone className="w-5 h-5" />
-                <span>+1 (555) 123-4567</span>
+                <span>+917488609341</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
                 <MapPin className="w-5 h-5" />
-                <span>San Francisco, CA</span>
+                <span>Muradnagar, Ghaziabad</span>
               </div>
             </div>
           </div>
@@ -110,7 +107,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="text-gray-500">
-              © 2024 FieldLedger. All rights reserved.
+              © 2025 FieldLedger. All rights reserved.
             </div>
 
             {/* Social Links */}

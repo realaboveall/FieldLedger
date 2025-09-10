@@ -12,7 +12,7 @@ const CONTENT = {
   subtitle:
     "Bringing Transparency to your plate with Ethereum, Polygon and Solidity.",
   textLines: ["We Make Sure that the Food you eat is "],
-  ctaText: "", //Bottom Button Text
+  ctaText: "Scan a QR today", //Bottom Button Text
   icons: [
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/ethereum.png",
@@ -164,9 +164,11 @@ const ScrollAnimationSection = () => {
         <div className="mb-16">
           <h1
             ref={titleRef}
-            className="text-6xl md:text-8xl font-mono font-bold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
+            className="text-6xl md:text-8xl font-Nunito font-light text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
             {CONTENT.title}
-            <h2 className="inline text-green-500">Ledger</h2>
+            <h2 className="inline text-green-500 font-Nunito font-bold italic">
+              Ledger
+            </h2>
           </h1>
           <p
             ref={subtitleRef}
@@ -215,7 +217,7 @@ const ScrollAnimationSection = () => {
                     "Ethically Produced.",
                     "Priced Correctly.",
                   ]}
-                  mainClassName="font-Nunito font-extrabold text-green-400 rounded-lg px-2 py-2 flex justify-center items-center text-shadow-lg/30 text-8xl"
+                  mainClassName="font-Nunito font-bold text-green-400 rounded-lg px-2 py-2 flex justify-center items-center text-shadow-lg/30 text-8xl"
                   staggerFrom={"first"}
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
@@ -232,7 +234,7 @@ const ScrollAnimationSection = () => {
 
         {/* CTA */}
         <div ref={ctaRef}>
-          <button className="group relative px-12 py-4 text-2xl md:text-3xl font-bold bg-gradient-primary text-primary-foreground rounded-full shadow-glow transition-all duration-500 hover:shadow-[0_0_60px_hsl(260_100%_80%_/_0.5)] hover:scale-105">
+          <button className="group relative px-12 py-4 text-2xl md:text-3xl font-bold bg  -green text-primary-foreground rounded-full shadow-glow transition-all duration-500 hover:shadow-[0_0_60px_hsl(260_100%_80%_/_0.5)] hover:scale-105">
             <span className="relative z-10">{CONTENT.ctaText}</span>
             <div className="absolute inset-0 bg-gradient-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
           </button>
