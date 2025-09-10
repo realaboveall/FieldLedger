@@ -48,7 +48,7 @@ function PreviousTransactions() {
                     {products.map((product) => (
                         <TableRow key={product.$id}>
                             <TableCell className="font-medium">{product.product_name}</TableCell>
-                            <TableCell>{product.amount}</TableCell>
+                            <TableCell>{product.amount} kg</TableCell>
                             <TableCell>{product.goingfrom}</TableCell>
                             <TableCell>{product.goingto}</TableCell>
                             <TableCell>{new Date(product.$createdAt).toLocaleDateString()}</TableCell>
