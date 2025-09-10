@@ -11,8 +11,7 @@ import ProductDetailsForm from './ProductDetailsForm';
 import { useUser } from '@/auth/UserContext';
 
 export default function Dashboard() {
-  // const { user, loading, logout } = useUser();
-  const [user,setUser] = useState("")
+  const { user, loading, logout } = useUser();
   const [page,setPage] = useState('Form') 
 
   useEffect(()=>{console.log(page)},[page])
@@ -27,7 +26,7 @@ export default function Dashboard() {
           } 
         }
       >
-         <AppSidebar variant="inset"  setPage={setPage} page={page}/> 
+         <AppSidebar variant="inset" user={user} setPage={setPage} page={page}/> 
         
 
          <SidebarInset>
