@@ -38,18 +38,19 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const tablesDB = new TablesDB(client);
+
+    const databaseID = import.meta.env.VITE_DATABASE_ID
+    const tableID = import.meta.env.VITE_TABLE_ID
 
     const uploadDetails = async (data) => {
-        const tablesDB = new TablesDB(client);
 
-        const databaseID = import.meta.env.VITE_DATABASE_ID
-        const tableID = import.meta.env.VITE_TABLE_ID
 
         try {
             const response = await tablesDB.createRow(
                 databaseID,
                 tableID,
-                ID.unique(), 
+                ID.unique(),
                 data
             );
             console.log(response);
@@ -58,12 +59,28 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+
+
+    async function retrieveData() {
+        try {
+            const response = await tablesDB.listRows({
+                databaseId: databaseID,
+                tableId: tableID,
+                
+            });
+            return response.rows
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         getUser();
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, loading, login, logout, uploadDetails }}>
+        <UserContext.Provider value={{ user, loading, login, logout, uploadDetails,retrieveData }}>
             {children}
         </UserContext.Provider>
     );
