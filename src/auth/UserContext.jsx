@@ -1,6 +1,7 @@
 // src/UserContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { account } from './appwriteConfig.js';
+import { account, client } from './appwriteConfig.js';
+import { ID, TablesDB } from 'appwrite';
 
 const UserContext = createContext();
 
@@ -22,7 +23,7 @@ export const UserProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             await account.createEmailPasswordSession(email, password);
-            // await getUser();
+            await getUser();
         } catch (error) {
             console.error('Login error:', error);
         }
@@ -37,12 +38,32 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+
+    const uploadDetails = async (data) => {
+        const tablesDB = new TablesDB(client);
+
+        const databaseID = import.meta.env.VITE_DATABASE_ID
+        const tableID = import.meta.env.VITE_TABLE_ID
+
+        try {
+            const response = await tablesDB.createRow(
+                databaseID,
+                tableID,
+                ID.unique(), 
+                data
+            );
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getUser();
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, loading, login, logout }}>
+        <UserContext.Provider value={{ user, loading, login, logout, uploadDetails }}>
             {children}
         </UserContext.Provider>
     );
