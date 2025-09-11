@@ -40,9 +40,9 @@ export default function Navbar() {
         logoAlt="Company Logo"
         items={[
           { label: "Home", href: "/" },
-          { label: "About", href: "/about" },
+          { label: "About", href: "#" },
           { label: "Login", href: "/login" },
-          { label: "Contact", href: "/contact" },
+          { label: "Contact", href: "#" },
         ]}
         activeHref="/"
         className="custom-nav"

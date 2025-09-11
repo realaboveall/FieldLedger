@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import FloatMenu from "./FloatMenu";
 import HowItWorksSection from "./HowItWorks";
 import FeaturesSection from "./Features";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,6 +83,9 @@ export default function Home() {
             animateOn="hover"
           />
         </p>
+        <div className="flex justify-center absolute top-145">
+          <ConnectButton />
+        </div>
       </section>
 
       {/* Scroll Animation Section */}
