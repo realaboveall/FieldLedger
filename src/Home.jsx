@@ -11,6 +11,7 @@ import FloatMenu from "./FloatMenu";
 import HowItWorksSection from "./HowItWorks";
 import FeaturesSection from "./Features";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import ChainOnlyButton from "./ChainOnlyButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,8 +84,8 @@ export default function Home() {
             animateOn="hover"
           />
         </p>
-        <div className="flex justify-center absolute top-145">
-          <ConnectButton />
+        <div className="flex justify-center absolute top-145 scale-130">
+          <ConnectButton showBalance={false} accountStatus="none" />
         </div>
       </section>
 

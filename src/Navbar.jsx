@@ -1,57 +1,84 @@
-import { nav } from "motion/react-client";
-import PillNav from "./PillNav";
+// src/Navbar.jsx
+import { useState } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useUser } from "@/auth/UserContext";
+import WalletAuth from "@/WalletAuth";
+import { Link } from "react-router-dom";
+
 import logo from "./logo.png";
 
-import { useState, useEffect } from "react";
-
 export default function Navbar() {
-  const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [tolerance] = useState(10); // Minimum scroll difference to trigger
+  const { user, logout, loginWithWallet } = useUser();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const controlNavbar = () => {
-    const currentScrollY = window.scrollY;
-
-    if (currentScrollY - lastScrollY > tolerance) {
-      // Scrolling down → hide navbar
-      setShow(false);
-    } else if (lastScrollY - currentScrollY > tolerance) {
-      // Scrolling up → show navbar
-      setShow(true);
-    }
-
-    setLastScrollY(currentScrollY);
+  const handleLogout = async () => {
+    // Call UserContext logout (handles Appwrite + wallet)
+    await logout();
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", controlNavbar);
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
-  }, [lastScrollY]);
-
   return (
-    <nav
-      className={`fixed top-0 left-130 w-full z-50 bg-white shadow-md transition-transform duration-300 ${
-        show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-      }`}>
-      <PillNav
-        logo={logo}
-        logoAlt="Company Logo"
-        items={[
-          { label: "Home", href: "/" },
-          { label: "About", href: "#" },
-          { label: "Login", href: "/login" },
-          { label: "Contact", href: "#" },
-        ]}
-        activeHref="/"
-        className="custom-nav"
-        ease="power2.easeOut"
-        baseColor="#000000"
-        pillColor="#00FA9A"
-        hoveredPillTextColor="#ffffff"
-        pillTextColor="#000000"
-      />
+    <nav className="fixed top-0 left-0 w-full z-50">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center space-x-2">
+          <img src={logo} alt="Logo" className="h-10 w-auto" />
+          <span className="text-xl font-Nunito font-bold text-white">
+            FieldLedger
+          </span>
+        </div>
+
+        {/* Desktop links */}
+        <div className="hidden md:flex space-x-6 text-white">
+          <a href="/" className=" hover:text-green-600">
+            Home
+          </a>
+          <a href="/Login" className=" hover:text-green-600">
+            Login
+          </a>
+          <a href="/contact" className=" hover:text-green-600">
+            Contact
+          </a>
+          {user && (
+            <Link
+              to="/dashboard"
+              className=" hover:text-green-600 font-semibold">
+              Dashboard
+            </Link>
+          )}
+        </div>
+
+        {/* Auth Section */}
+        <div className="flex items-center space-x-4">
+          <ConnectButton showBalance={false} chainStatus="none" />
+        </div>
+
+        {/* Mobile menu button */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-gray-700 focus:outline-none">
+            ☰
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white shadow-md px-6 py-4 flex flex-col space-y-3">
+          <a href="/" className="text-gray-700 hover:text-green-600">
+            Home
+          </a>
+          <a href="/about" className="text-gray-700 hover:text-green-600">
+            About
+          </a>
+          <a href="/contact" className="text-gray-700 hover:text-green-600">
+            Contact
+          </a>
+        </div>
+      )}
+
+      {/* Invisible listener for wallet auto-login */}
+      <WalletAuth onLogin={loginWithWallet} />
     </nav>
   );
 }

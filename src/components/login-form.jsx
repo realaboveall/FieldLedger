@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import placeholder from '@/assets/placeholder.jpg'
-import { useNavigate, Link } from 'react-router-dom';
-import { useUser } from "@/auth/UserContext"
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useNavigate, Link } from "react-router-dom";
+import { useUser } from "@/auth/UserContext";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi"; // ✅ for wallet state
 
 export function LoginForm({ className, ...props }) {
   const [email, setEmail] = useState("");
@@ -14,21 +15,30 @@ export function LoginForm({ className, ...props }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user, login } = useUser();
+  const { isConnected } = useAccount(); // ✅ wallet status
 
+  // Redirect when Appwrite user is logged in
   useEffect(() => {
     if (user) {
-      navigate('/dashboard', { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
+
+  // Redirect when Wallet is connected
+  useEffect(() => {
+    if (isConnected) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isConnected, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       await login(email, password);
-      console.log('Logged in!');
+      console.log("Logged in!");
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     } finally {
       setLoading(false);
     }
@@ -38,10 +48,11 @@ export function LoginForm({ className, ...props }) {
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
+          {/* ----------- Web2 Login ----------- */}
           <form className="p-6 md:p-8" onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Web 2</h1>
                 <p className="text-muted-foreground text-balance">
                   Login to your FieldLedger account
                 </p>
@@ -80,12 +91,13 @@ export function LoginForm({ className, ...props }) {
               </div>
             </div>
           </form>
-          <div className="bg-muted relative hidden md:block">
-            <img
-              src={placeholder}
-              alt="Placeholder"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
+
+          {/* ----------- Web3 Login (Wallet) ----------- */}
+          <div className="flex flex-col items-center justify-center gap-6 p-8">
+            <h1 className="text-2xl font-Orbitron font-bold">
+              Web 3 with MetaMask
+            </h1>
+            <ConnectButton />
           </div>
         </CardContent>
       </Card>
