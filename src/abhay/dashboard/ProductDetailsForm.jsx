@@ -72,10 +72,10 @@ export default function ProductDetailsForm() {
     }
 
     return (
-        <div>
-            <div className="text-4xl font-bold mb-3">Product Details Form</div>
+        <div className="h-[10vh]">
+            <div className="text-4xl font-bold mb-3 ">Product Details Form</div>
             <div className="flex">
-                <div className="w-[30%] mt-3 border-2 rounded-lg px-10 mr-10">
+                <div className="w-[60%] mt-3 h-[75vh] overflow-y-scroll border-2 rounded-lg px-10 mr-10">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
 
@@ -223,7 +223,7 @@ export default function ProductDetailsForm() {
                     </Form>
                 </div>
 
-                <div className="w-[40%] mt-3 border-2 rounded-lg flex justify-center items-center h-[80vh]">
+                <div className="w-[40%] mt-3 border-2 rounded-lg flex justify-center items-center h-[75vh] p-6 py-6">
                     <Chatbox />
                 </div>
             </div>
