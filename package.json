@@ -41,6 +41,7 @@
     "appwrite": "^19.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
