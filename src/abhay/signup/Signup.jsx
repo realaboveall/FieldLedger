@@ -50,6 +50,8 @@ function Signup() {
     e.preventDefault();
     console.log("Form submitted");
     console.log(e);
+
+    
   };
 
   return (
