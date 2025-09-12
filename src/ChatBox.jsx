@@ -15,12 +15,10 @@ export default function Chatbox() {
 
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Environment variables
   const functionID = import.meta.env.VITE_APPWRITE_CHATGPT_FUNCTION_ID;
 
   const sendMessage = async () => {
@@ -29,32 +27,35 @@ export default function Chatbox() {
     const userMsg = { role: "user", content: input };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
+
     const currentInput = input;
     setInput("");
     setLoading(true);
 
     try {
-      // Execute Appwrite function
+      // Call Appwrite function
       const execution = await functions.createExecution({
-        functionId: functionID, // your function ID
-        body: JSON.stringify({ question: currentInput }), // payload
-        async: false, // run synchronously
-        path: `/`, // function execution path
-        method: ExecutionMethod.POST, // execution method
-        headers: { "Content-Type": "application/json" }, // optional headers
+        functionId: functionID,
+        body: JSON.stringify({
+          messages: [{ role: "user", content: currentInput }],
+        }),
+        async: false,
+        path: `/`,
+        method: ExecutionMethod.POST,
+        headers: { "Content-Type": "application/json" },
       });
 
-      // Parse response safely
-      const result = execution.response
-        ? JSON.parse(execution.response)
-        : { answer: "No response received." };
+      // Parse Appwrite response
+      let assistantReply = "⚠️ No response received.";
+      if (execution.response) {
+        const outer = JSON.parse(execution.response); // first parse
+        const inner = JSON.parse(outer.response); // second parse
+        assistantReply = inner.reply?.content || assistantReply;
+      }
 
       setMessages([
         ...newMessages,
-        {
-          role: "assistant",
-          content: result.answer || `⚠️ Error: ${result.error || "No answer"}`,
-        },
+        { role: "assistant", content: assistantReply },
       ]);
     } catch (err) {
       console.error("Request error:", err);
@@ -88,8 +89,7 @@ export default function Chatbox() {
               key={idx}
               className={`flex items-start gap-3 ${
                 msg.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+              }`}>
               {msg.role === "assistant" && (
                 <Bot className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
               )}
@@ -98,8 +98,7 @@ export default function Chatbox() {
                   msg.role === "user"
                     ? "bg-green-600 text-white rounded-br-none"
                     : "bg-gray-200 text-gray-900 rounded-bl-none"
-                }`}
-              >
+                }`}>
                 {msg.content}
               </div>
               {msg.role === "user" && (
@@ -130,8 +129,7 @@ export default function Chatbox() {
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="p-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
+            className="p-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
             <SendHorizonal className="w-5 h-5" />
           </button>
         </div>
