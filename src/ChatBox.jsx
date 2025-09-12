@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SendHorizonal, Bot, User } from "lucide-react";
+import { ExecutionMethod } from "appwrite";
+import { functions } from "./auth/appwriteConfig";
 
 export default function Chatbox() {
   const [messages, setMessages] = useState([
@@ -11,10 +13,15 @@ export default function Chatbox() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Environment variables with fallbacks
-  const endpoint = import.meta.env.VITE_APPWRITE_FUNCTION_ENDPOINT 
-  const functionID = import.meta.env.VITE_APPWRITE_CHATGPT_FUNCTION_ID
-  const projectID = import.meta.env.VITE_APPWRITE_PROJECT_ID 
+  const messagesEndRef = useRef(null);
+
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Environment variables
+  const functionID = import.meta.env.VITE_APPWRITE_CHATGPT_FUNCTION_ID;
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -22,64 +29,42 @@ export default function Chatbox() {
     const userMsg = { role: "user", content: input };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
+    const currentInput = input;
     setInput("");
     setLoading(true);
 
     try {
-      // Use https:// for production, check if endpoint includes protocol
-      // const protocol = endpoint.includes('://') ? '' : 'https://';
-      const url = `https://${endpoint}/v1/functions/${functionID}/executions`;
-      
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Appwrite-Project": projectID,
-        },
-        credentials: "include",
-        body: JSON.stringify({ messages: newMessages }),
+      // Execute Appwrite function
+      const execution = await functions.createExecution({
+        functionId: functionID, // your function ID
+        body: JSON.stringify({ question: currentInput }), // payload
+        async: false, // run synchronously
+        path: `/`, // function execution path
+        method: ExecutionMethod.POST, // execution method
+        headers: { "Content-Type": "application/json" }, // optional headers
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
+      // Parse response safely
+      const result = execution.response
+        ? JSON.parse(execution.response)
+        : { answer: "No response received." };
 
-      const data = await res.json();
-
-      if (data.response) {
-        try {
-          const parsed = JSON.parse(data.response);
-          if (parsed.reply && typeof parsed.reply === 'object') {
-            setMessages([...newMessages, parsed.reply]);
-          } else {
-            throw new Error("Invalid reply format");
-          }
-        } catch (parseError) {
-          console.error("JSON parse error:", parseError);
-          setMessages([
-            ...newMessages,
-            {
-              role: "assistant",
-              content: "⚠️ Error: Unable to parse server response.",
-            },
-          ]);
-        }
-      } else {
-        setMessages([
-          ...newMessages,
-          {
-            role: "assistant",
-            content: "⚠️ Error: No response received from server.",
-          },
-        ]);
-      }
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: result.answer || `⚠️ Error: ${result.error || "No answer"}`,
+        },
+      ]);
     } catch (err) {
       console.error("Request error:", err);
       setMessages([
         ...newMessages,
         {
           role: "assistant",
-          content: `⚠️ Error: ${err.message || "Check your network connection."}`,
+          content: `⚠️ Error: ${
+            err.message || "Check your network connection."
+          }`,
         },
       ]);
     } finally {
@@ -125,9 +110,12 @@ export default function Chatbox() {
           {loading && (
             <div className="flex items-center gap-3">
               <Bot className="w-6 h-6 text-green-600" />
-              <div className="text-gray-400 text-sm animate-pulse">Thinking...</div>
+              <div className="text-gray-400 text-sm animate-pulse">
+                Thinking...
+              </div>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
 
         <div className="flex items-center gap-2 mt-4">
@@ -139,8 +127,8 @@ export default function Chatbox() {
             disabled={loading}
             className="flex-grow p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
           />
-          <button 
-            onClick={sendMessage} 
+          <button
+            onClick={sendMessage}
             disabled={loading || !input.trim()}
             className="p-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >

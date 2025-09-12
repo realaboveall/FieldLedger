@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import { account, client } from "./appwriteConfig.js";
+import { ID } from "appwrite";
 // Remove unused imports: ID, TablesDB
 
 const UserContext = createContext();
@@ -15,7 +16,7 @@ export const UserProvider = ({ children }) => {
   // const databaseID = import.meta.env.VITE_DATABASE_ID;
   // const tableID = import.meta.env.VITE_TABLE_ID;
 
-  const generateEmailFromId = (customId) => `${customId}@example.com`;
+  const generateEmailFromId = (customId) => `wallet-${customId}@example.com`;
 
   const getUser = async () => {
     try {
@@ -44,22 +45,43 @@ export const UserProvider = ({ children }) => {
 
   const login = async (customId, password) => {
     const email = generateEmailFromId(customId);
+    console.log(email,password)
     try {
+      // Try to create a session (log in)
       await account.createEmailPasswordSession(email, password);
-      await getUser();
     } catch (err) {
       console.error("Login error:", err);
-      throw err;
+
+      if (err.response && err.response.status === 400) {
+        // or check err.code depending on SDK version
+        // User doesn't exist, so create the account
+        try {
+          const useri = await account.create(ID.unique(), email, password);
+          // console.log(useri)
+          console.log("User signed up successfully");
+
+          // Now login again
+          await account.createEmailPasswordSession(email, password);
+        } catch (signupErr) {
+          console.error("Signup error:", signupErr);
+          throw signupErr;
+        }
+      } else {
+        // Other errors
+        throw err;
+      }
+    } finally {
+      await getUser();
     }
   };
 
   const loginWithWallet = async (address) => {
-    if (!address || typeof address !== 'string') {
+    if (!address || typeof address !== "string") {
       throw new Error("Invalid wallet address");
     }
 
     const customId = address;
-    const email = generateEmailFromId(customId);
+    // const email = generateEmailFromId(customId);
     // WARNING: Using address as password is insecure - consider better auth method
     const password = address;
 
@@ -86,13 +108,11 @@ export const UserProvider = ({ children }) => {
       await account.deleteSession("current");
     } catch (err) {
       console.error("Logout error:", err);
-      // Continue with cleanup even if session deletion fails
     } finally {
-      // Cleanup local state and storage
       localStorage.removeItem("walletUser");
       setUser(null);
       setWalletUser(null);
-      
+
       // Handle navigation when available
       // navigate("/login");
       // For now, you might want to use window.location or emit an event
@@ -100,19 +120,9 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Cleanup function for component unmount
   useEffect(() => {
     getUser();
-    
-    // Optional: Return cleanup function
-    return () => {
-      // Any cleanup needed on unmount
-    };
   }, []);
-
-  useEffect(() => {
-    console.log("Wallet user:", walletUser);
-  }, [walletUser]);
 
   const contextValue = {
     user,
@@ -124,9 +134,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 
