@@ -75,7 +75,7 @@ export default function ProductDetailsForm() {
         <div>
             <div className="text-4xl font-bold mb-3">Product Details Form</div>
             <div className="flex">
-                <div className="w-[40%] mt-3 border-2 rounded-lg px-10 mr-10">
+                <div className="w-[30%] mt-3 border-2 rounded-lg px-10 mr-10">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
 

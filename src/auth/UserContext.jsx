@@ -7,6 +7,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [walletUser, setWalletUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Tables
@@ -14,15 +15,14 @@ export const UserProvider = ({ children }) => {
   const databaseID = import.meta.env.VITE_DATABASE_ID;
   const tableID = import.meta.env.VITE_TABLE_ID;
 
-  // Get Appwrite user or wallet user from localStorage
+  // Get Appwrite user and wallet user from localStorage
   const getUser = async () => {
     try {
+      const walletUser = localStorage.getItem("walletUser");
       const res = await account.get();
+      if (walletUser) setWalletUser(JSON.parse(walletUser));
       setUser(res);
     } catch (err) {
-      const walletUser = localStorage.getItem("walletUser");
-      if (walletUser) setUser(JSON.parse(walletUser));
-      else setUser(null);
     } finally {
       setLoading(false);
     }
@@ -41,8 +41,9 @@ export const UserProvider = ({ children }) => {
   // Wallet login
   const loginWithWallet = (address) => {
     const walletUser = { address, type: "wallet" };
-    setUser(walletUser);
+    setWalletUser(walletUser);
     localStorage.setItem("walletUser", JSON.stringify(walletUser));
+    login("wallet",address);
   };
 
   // Logout (Appwrite + wallet)
@@ -57,36 +58,11 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Upload / retrieve tables (optional)
-  const uploadDetails = async (data) => {
-    try {
-      const res = await tablesDB.createRow(
-        databaseID,
-        tableID,
-        ID.unique(),
-        data
-      );
-      return res;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const retrieveData = async () => {
-    try {
-      const res = await tablesDB.listRows({
-        databaseId: databaseID,
-        tableId: tableID,
-      });
-      return res.rows;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
     getUser();
   }, []);
+
+  useEffect(() => { console.log(walletUser) }, [walletUser])
 
   return (
     <UserContext.Provider
@@ -96,8 +72,6 @@ export const UserProvider = ({ children }) => {
         login,
         loginWithWallet,
         logout,
-        uploadDetails,
-        retrieveData,
       }}>
       {children}
     </UserContext.Provider>
