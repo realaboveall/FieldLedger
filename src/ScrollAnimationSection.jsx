@@ -2,13 +2,14 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import RText from "./RText";
+
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Placeholder content arrays for easy customization
 const CONTENT = {
   title: "Field",
-  tille2: "Ledger",
+  title2: "Ledger",
   subtitle:
     "Bringing Transparency to your plate with Ethereum, Polygon and Solidity.",
   textLines: ["We Make Sure that the Food you eat is "],
@@ -36,19 +37,19 @@ const CONTENT = {
     },
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tailwind_css.png",
-      alt: "Feature 5",
+      alt: "Feature 6",
     },
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/hardhat.png",
-      alt: "Feature 5",
+      alt: "Feature 7",
     },
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tensorflow.png",
-      alt: "Feature 5",
+      alt: "Feature 8",
     },
     {
       src: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/metamask.png",
-      alt: "Feature 5",
+      alt: "Feature 9",
     },
   ],
 };
@@ -166,9 +167,9 @@ const ScrollAnimationSection = () => {
             ref={titleRef}
             className="text-6xl md:text-8xl font-Nunito font-light text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer ">
             {CONTENT.title}
-            <h2 className="inline text-green-500 font-Nunito font-bold italic">
-              Ledger
-            </h2>
+            <span className="inline text-green-500 font-Nunito font-bold italic">
+              {CONTENT.title2}
+            </span>
           </h1>
           <p
             ref={subtitleRef}
@@ -200,7 +201,7 @@ const ScrollAnimationSection = () => {
               key={index}
               className="font-Nunito font-light text-5xl leading-relaxed text-white">
               {line}
-              <h1>
+              <span className="block">
                 <RText
                   texts={[
                     "Unadultered.",
@@ -227,14 +228,14 @@ const ScrollAnimationSection = () => {
                   transition={{ type: "spring", damping: 30, stiffness: 400 }}
                   rotationInterval={2000}
                 />
-              </h1>
+              </span>
             </p>
           ))}
         </div>
 
         {/* CTA */}
         <div ref={ctaRef}>
-          <button className="group relative px-12 py-4 text-2xl md:text-3xl font-bold bg  -green text-primary-foreground rounded-full shadow-glow transition-all duration-500 hover:shadow-[0_0_60px_hsl(260_100%_80%_/_0.5)] hover:scale-105">
+          <button className="group relative px-12 py-4 text-2xl md:text-3xl font-bold bg-green-500 text-primary-foreground rounded-full shadow-glow transition-all duration-500 hover:shadow-[0_0_60px_hsl(260_100%_80%_/_0.5)] hover:scale-105">
             <span className="relative z-10">{CONTENT.ctaText}</span>
             <div className="absolute inset-0 bg-gradient-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
           </button>

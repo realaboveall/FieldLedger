@@ -46,10 +46,12 @@ const HowItWorksSection = () => {
         <div className="text-center space-y-4 mb-16">
           <h1 className="text-6xl font-Nunito font-bold text-white text-shadow-lg/20 mb-6 hover:underline hover:tracking-widest cursor-pointer hover:text-green-500">
             How
-            <h1 className="text-6xl font-Nunito font-extrabold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer inline mr-6 ml-6 hover:text-green-500">
+            <span className="text-6xl font-Nunito font-extrabold text-white text-shadow-lg/20 mb-6 hover:scale-110 hover:tracking-widest cursor-pointer inline mr-6 ml-6 hover:text-green-500">
               Field
-              <h2 className="inline text-green-500 hover:text-white">Ledger</h2>
-            </h1>
+              <span className="inline text-green-500 hover:text-white">
+                Ledger
+              </span>
+            </span>
             Works
           </h1>
         </div>
