@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Login from "./abhay/login.jsx";
 import Landingpage from "@/Landingpage.jsx";
 import Dashboard from "./abhay/dashboard/Dashboard";
 import ProtectedRoute from "./ProtectedRoute.jsx";
@@ -14,6 +13,9 @@ import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
+
+
+import Signup from "./abhay/signup/Signup";
 
 // ✅ Wagmi config
 const config = getDefaultConfig({
@@ -38,7 +40,6 @@ function App() {
               <Router>
                 <Routes>
                   <Route path="/" element={<Landingpage />} />
-                  <Route path="/login" element={<Landingpage />} />
                   <Route
                     path="/dashboard"
                     element={
@@ -47,6 +48,7 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                    <Route path="/signup" element={<Signup />} />
                 </Routes>
               </Router>
             </UserProvider>

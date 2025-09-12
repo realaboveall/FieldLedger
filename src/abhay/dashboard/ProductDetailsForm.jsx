@@ -95,7 +95,7 @@ export default function ProductDetailsForm() {
                                                 <SelectItem value="Product A">Potato</SelectItem>
                                                 <SelectItem value="Product B">Tomato</SelectItem>
                                                 <SelectItem value="Product C">Onion</SelectItem>
-                                                <SelectItem value="Product C">Capsicum</SelectItem>
+                                                <SelectItem value="Product D">Capsicum</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormDescription>Enter the Name of the Product</FormDescription>
