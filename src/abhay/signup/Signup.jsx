@@ -1,12 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label.jsx";
 import { Input } from "@/components/ui/input.jsx";
 import { cn } from "@/lib/utils.js";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 function Signup() {
+  const [details, setDetails] = useState({
+    firstname: "",
+    lastname: "",
+    role: "",
+    location: "",
+    phonenumber: 0,
+  });
+
+  const [role, setRole] = useState("Select Role");
+
+  useEffect(() => {
+    // setting role using the dropdown
+    setDetails((prev) => ({
+      ...prev,
+      role: role,
+    }));
+  }, [role]);
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(details);
+  }, [details]);
+
   const handleSubmit = (e) => {
+    // Add signup logic
     e.preventDefault();
     console.log("Form submitted");
+    console.log(e);
   };
 
   return (
@@ -22,33 +65,92 @@ function Signup() {
         <form className="my-8" onSubmit={handleSubmit}>
           <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 text-accent">
             <LabelInputContainer>
-              <Label htmlFor="firstname" className="text-accent">First name</Label>
-              <Input id="firstname" placeholder="Tyler" type="text" />
+              <Label htmlFor="firstname" className="text-accent">
+                First name
+              </Label>
+              <Input
+                id="firstname"
+                placeholder="Tyler"
+                type="text"
+                className="bg-background text-foreground placeholder:text-[hsl(26 19% 10%)"
+                name="firstname"
+                value={details.firstname}
+                onChange={onChange}
+              />
             </LabelInputContainer>
             <LabelInputContainer>
-              <Label htmlFor="lastname" className="text-accent">Last name</Label>
-              <Input id="lastname" placeholder="Durden" type="text" />
+              <Label htmlFor="lastname" className="text-accent">
+                Last name
+              </Label>
+              <Input
+                id="lastname"
+                placeholder="Durden"
+                type="text"
+                className="bg-background text-foreground placeholder:text-[hsl(26 19% 10%)"
+                name="lastname"
+                value={details.lastname}
+                onChange={onChange}
+              />
             </LabelInputContainer>
           </div>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="email" className="text-accent">Email Address</Label>
-            <Input id="email" placeholder="projectmayhem@fc.com" type="email" className="bg-background text-foreground placeholder:text-foreground" />
+            <Label htmlFor="role" className="text-accent">
+              Role
+            </Label>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="w-30">
+                <Button variant="outline" className="text-foreground">
+                  {details.role}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-30">
+                <DropdownMenuLabel>Role</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup value={role} onValueChange={setRole}>
+                  <DropdownMenuRadioItem value="Farmer">
+                    Farmer
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Packager">
+                    Packager
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Buyer">
+                    Buyer
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="password" className="text-accent">Password</Label>
-            <Input id="password" placeholder="••••••••" type="password" />
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-8" >
-            <Label htmlFor="twitterpassword" className="text-accent">Your twitter password</Label>
+            <Label htmlFor="password" className="text-accent">
+              Location
+            </Label>
             <Input
-              id="twitterpassword"
-              placeholder="••••••••"
-              type="twitterpassword"
+              id="location"
+              placeholder="Enter Location"
+              type="text"
+              className="bg-background text-foreground placeholder:text-[hsl(26 19% 10%)"
+              name="location"
+              value={details.location}
+              onChange={onChange}
+            />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-8">
+            <Label htmlFor="twitterpassword" className="text-accent">
+              Your Phone Number
+            </Label>
+            <Input
+              id="phonenumber"
+              placeholder="Enter Phone Number"
+              type="phonenumber"
+              className="bg-background text-foreground placeholder:text-[hsl(26 19% 10%)] "
+              name="phonenumber"
+              value={details.phonenumber}
+              onChange={onChange}
             />
           </LabelInputContainer>
 
           <button
-            className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+            className="group/btn relative block bg-accent text-foreground h-10 w-full rounded-md  font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             type="submit"
           >
             Sign up &rarr;
@@ -65,8 +167,8 @@ function Signup() {
 const BottomGradient = () => {
   return (
     <>
-      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-background to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-foreground to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
     </>
   );
 };
