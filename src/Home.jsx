@@ -85,7 +85,11 @@ export default function Home() {
           />
         </p>
         <div className="flex justify-center absolute top-145 scale-130">
-          <ConnectButton showBalance={false} accountStatus="none" />
+          <ConnectButton
+            showBalance={false}
+            accountStatus="none"
+            label="Choose A Chain"
+          />
         </div>
       </section>
 

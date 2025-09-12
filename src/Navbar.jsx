@@ -28,20 +28,26 @@ export default function Navbar() {
         </div>
 
         {/* Desktop links */}
-        <div className="hidden md:flex space-x-6 text-white">
-          <a href="/" className=" hover:text-green-600">
+        <div className="hidden md:flex space-x-6 text-white font-Nunito">
+          <a
+            href="/"
+            className=" hover:text-green-600 hover:underline hover:font-extrabold hover:scale-105">
             Home
           </a>
-          <a href="/Login" className=" hover:text-green-600">
+          <a
+            href="/Login"
+            className=" hover:text-green-600 hover:underline hover:font-extrabold hover:scale-105">
             Login
           </a>
-          <a href="/contact" className=" hover:text-green-600">
+          <a
+            href="/contact"
+            className=" hover:text-green-600 hover:underline hover:font-extrabold hover:scale-105">
             Contact
           </a>
           {user && (
             <Link
               to="/dashboard"
-              className=" hover:text-green-600 font-semibold">
+              className=" hover:text-green-600 font-extrabold hover:underline hover:font-extrabold hover:scale-105">
               Dashboard
             </Link>
           )}
