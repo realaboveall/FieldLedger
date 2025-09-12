@@ -45,29 +45,26 @@ export const UserProvider = ({ children }) => {
 
   const login = async (customId, password) => {
     const email = generateEmailFromId(customId);
-    console.log(email,password)
     try {
       // Try to create a session (log in)
       await account.createEmailPasswordSession(email, password);
     } catch (err) {
       console.error("Login error:", err);
 
-      if (err.response && err.response.status === 400) {
-        // or check err.code depending on SDK version
-        // User doesn't exist, so create the account
+      const status = err.code || (err.response && err.response.status);
+
+      if (status === 400 || status === 401 || status === 404) {
+        // User doesn't exist → create and then log in
         try {
-          const useri = await account.create(ID.unique(), email, password);
-          // console.log(useri)
+          await account.create(ID.unique(), email, password);
           console.log("User signed up successfully");
 
-          // Now login again
           await account.createEmailPasswordSession(email, password);
         } catch (signupErr) {
           console.error("Signup error:", signupErr);
           throw signupErr;
         }
       } else {
-        // Other errors
         throw err;
       }
     } finally {
