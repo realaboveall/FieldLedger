@@ -1,8 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import { SendHorizonal, Bot, User } from "lucide-react";
 import { ExecutionMethod } from "appwrite";
-import { functions } from "./auth/appwriteConfig";
-import { useUser } from "@/auth/UserContext";
+import { functions } from "@/auth/appwriteConfig";
+
+// --- LocalStorage helpers ---
+const loadTransactions = () => {
+  try {
+    return JSON.parse(localStorage.getItem("transactions")) || [];
+  } catch {
+    return [];
+  }
+};
+const saveTransaction = (tx) => {
+  const existing = loadTransactions();
+  const updated = [tx, ...existing];
+  localStorage.setItem("transactions", JSON.stringify(updated));
+};
 
 // --- Typing Dots Animation ---
 const TypingDots = ({ text }) => (
@@ -14,76 +27,26 @@ const TypingDots = ({ text }) => (
   </div>
 );
 
-export default function Chatbox({ defaultMode = "chat" }) {
-  const { saveTransactionLocal, saveChatLogsLocal } = useUser();
-
+export default function Chatbox() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
       content:
-        "👋 Hi! I'm your FieldLedger assistant. Choose a mode and language to start.",
+        "👋 Hi! I'm your FieldLedger assistant. Choose a mode below to start.",
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState(defaultMode); // chat | register | verify | update
-  const [lang, setLang] = useState("en"); // default English
-
-  // Voice state
-  const [isRecording, setIsRecording] = useState(false);
-  const recognitionRef = useRef(null);
+  const [mode, setMode] = useState("chat"); // chat | register | verify | update
 
   const messagesEndRef = useRef(null);
-  const functionID = import.meta.env.VITE_APPWRITE_CHATGPT_FUNCTION_ID;
 
-  // --- Auto scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // --- Init Speech Recognition
-  useEffect(() => {
-    if ("webkitSpeechRecognition" in window) {
-      const recognition = new window.webkitSpeechRecognition();
-      recognition.lang =
-        lang === "hi" ? "hi-IN" : lang === "es" ? "es-ES" : "en-US";
-      recognition.continuous = false;
-      recognition.interimResults = false;
+  const functionID = import.meta.env.VITE_APPWRITE_CHATGPT_FUNCTION_ID;
 
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setInput(transcript); // put speech into input
-      };
-
-      recognition.onerror = (err) => {
-        console.error("🎤 Speech recognition error:", err);
-      };
-
-      recognitionRef.current = recognition;
-    }
-  }, [lang]);
-
-  const toggleRecording = () => {
-    if (!recognitionRef.current) return;
-    if (isRecording) {
-      recognitionRef.current.stop();
-      setIsRecording(false);
-    } else {
-      recognitionRef.current.start();
-      setIsRecording(true);
-    }
-  };
-
-  // --- Text-to-Speech
-  const speak = (text) => {
-    if (!window.speechSynthesis) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang =
-      lang === "hi" ? "hi-IN" : lang === "es" ? "es-ES" : "en-US";
-    speechSynthesis.speak(utterance);
-  };
-
-  // --- Send Message
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -95,18 +58,9 @@ export default function Chatbox({ defaultMode = "chat" }) {
     setLoading(true);
 
     try {
-      let bodyPayload = { mode, messages: newMessages, lang };
-
-      // Strict Verify Mode → extract CID from anywhere in input
-      const CID_REGEX = /[a-zA-Z0-9]{46,59}/;
-      const match = userMsg.content.match(CID_REGEX);
-      if (mode === "verify" && match) {
-        bodyPayload = { mode: "verify", cid: match[0], lang };
-      }
-
       const execution = await functions.createExecution({
         functionId: functionID,
-        body: JSON.stringify(bodyPayload),
+        body: JSON.stringify({ mode, messages: newMessages }),
         async: false,
         path: `/`,
         method: ExecutionMethod.POST,
@@ -127,31 +81,8 @@ export default function Chatbox({ defaultMode = "chat" }) {
         }
       }
 
-      // ✅ Handle Verify flow separately
-      if (mode === "verify" && inner?.product) {
-        const verifyMsg = {
-          role: "assistant",
-          content:
-            `🔍 Verified product:\n\n` +
-            `🆔 ID: ${inner.product.productId || "N/A"}\n` +
-            `📦 Name: ${inner.product.name || "N/A"}\n` +
-            `💰 Price: ₹${inner.product.price || "N/A"}\n` +
-            `🌍 Origin: ${inner.product.origin || "N/A"}\n` +
-            `\n🔗 [View on IPFS](${inner.gatewayUrl})`,
-          loading: false,
-        };
-        setMessages([...newMessages, verifyMsg]);
-        speak(verifyMsg.content);
-
-        // Save chat log for verify flow too
-        if (inner.cid) {
-          saveChatLogsLocal(inner.cid, [...newMessages, verifyMsg]);
-        }
-        return;
-      }
-
-      // ✅ Register flow → staged blockchain/IPFS animation
-      if (mode === "register" && inner?.cid) {
+      // If CID is returned → staged blockchain/IPFS flow
+      if (inner?.cid) {
         const msg1 = {
           role: "assistant",
           content: "⛓️ Accessing Polygon blockchain",
@@ -178,34 +109,25 @@ export default function Chatbox({ defaultMode = "chat" }) {
           qrDataUrl: inner.qrDataUrl || null,
           loading: false,
         };
-        const allMsgs = [...newMessages, msg1, msg2, finalMsg];
-        setMessages(allMsgs);
-        speak(finalMsg.content);
+        setMessages((prev) => [...prev, finalMsg]);
 
-        // Save locally → transaction + chat logs
+        // Save locally
         const tx = {
           cid: inner.cid,
           product: inner.product || {},
-          messages: allMsgs,
+          messages: [...newMessages, msg1, msg2, finalMsg],
           createdAt: new Date().toISOString(),
         };
-        saveTransactionLocal(tx);
-        saveChatLogsLocal(inner.cid, allMsgs);
-        return;
+        saveTransaction(tx);
+      } else {
+        // Normal reply (no CID)
+        const assistantMsg = {
+          role: "assistant",
+          content: assistantReply,
+          loading: false,
+        };
+        setMessages([...newMessages, assistantMsg]);
       }
-
-      // ✅ Normal reply (Chat mode / Fallback)
-      const assistantMsg = {
-        role: "assistant",
-        content: assistantReply,
-        loading: false,
-      };
-      const allMsgs = [...newMessages, assistantMsg];
-      setMessages(allMsgs);
-      speak(assistantReply);
-
-      // Save chat logs (no CID yet, fallback to temp)
-      saveChatLogsLocal("general", allMsgs);
     } catch (err) {
       console.error("❌ Request error:", err);
       setMessages([
@@ -242,20 +164,12 @@ export default function Chatbox({ defaultMode = "chat" }) {
 
   return (
     <div className="w-[27vw] max-w-2xl h-[70vh] flex flex-col shadow-2xl rounded-3xl border bg-foreground text-white">
-      {/* Mode buttons + language dropdown */}
-      <div className="flex justify-between items-center p-3 border-b border-gray-600">
-        <div className="flex gap-2">
-          <ModeButton value="register" label="Register" icon="📝" />
-          <ModeButton value="verify" label="Verify" icon="🔍" />
-          <ModeButton value="update" label="Update" icon="♻️" />
-        </div>
-        <select
-          value={lang}
-          onChange={(e) => setLang(e.target.value)}
-          className="bg-gray-700 text-white text-sm rounded-lg px-2 py-1">
-          <option value="en">🇬🇧 English</option>
-          <option value="hi">🇮🇳 Hindi</option>
-        </select>
+      {/* Mode buttons */}
+      <div className="flex justify-around p-3 border-b border-gray-600">
+        <ModeButton value="chat" label="Chat" icon="💬" />
+        <ModeButton value="register" label="Register" icon="📝" />
+        <ModeButton value="verify" label="Verify" icon="🔍" />
+        <ModeButton value="update" label="Update" icon="♻️" />
       </div>
 
       {/* Messages */}
@@ -307,23 +221,16 @@ export default function Chatbox({ defaultMode = "chat" }) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input + Voice */}
+        {/* Input */}
         <div className="flex items-center gap-2 mt-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
-            placeholder="Type your message or use 🎤..."
+            placeholder="Type your message..."
             disabled={loading}
             className="flex-grow p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
           />
-          <button
-            onClick={toggleRecording}
-            className={`p-3 rounded-xl ${
-              isRecording ? "bg-red-600" : "bg-gray-600"
-            } text-white`}>
-            🎤
-          </button>
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
