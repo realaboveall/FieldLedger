@@ -12,7 +12,8 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
+import {Input} from "@/abhay/dashboard/Inputnew"
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -94,11 +95,11 @@ export default function ProductDetailsForm() {
     }
   }
   return (
-    <div className="h-[10vh]">
+    <div className="">
       <div className="text-4xl font-bold mb-3 ">Product Details Form</div>
       <div className="flex">
         {/* Left side: Form */}
-        <div className="w-[60%] mt-3 h-[75vh] overflow-y-scroll border-2 rounded-lg px-10 mr-10">
+        <div className="w-[60%] mt-3 h-[80vh] overflow-y-scroll border-2 rounded-lg px-10 mr-10">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -186,6 +187,12 @@ export default function ProductDetailsForm() {
                         type="number"
                         {...field}
                       />
+                      {/* <Textarea
+                        placeholder="Amount of Product"
+                        className="resize-none"
+                        type="number"
+                        {...field}
+                      /> */}
                     </FormControl>
                     <FormDescription>Enter amount in kilograms</FormDescription>
                     <FormMessage />

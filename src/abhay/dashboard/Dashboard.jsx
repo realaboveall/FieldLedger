@@ -9,15 +9,18 @@ import PreviousTransactions from "./PreviousTransactions";
 import Chatbox from "./ChatBox";
 import { useUser } from "@/auth/UserContext";
 
+
+// import farmer from "/img/farmer.png"
+
 export default function Dashboard() {
   const { user, loading, logout } = useUser();
   const [page, setPage] = useState("Form");
   const [role, setRole] = useState(() => localStorage.getItem("role") || null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Current page:", page);
-  }, [page]);
+  // useEffect(() => {
+  //   console.log("Current page:", page);
+  // }, [page]);
 
   if (loading) {
     return (
@@ -83,25 +86,25 @@ export default function Dashboard() {
       id: "farmer",
       label: "Farmer 👩‍🌾",
       desc: "Register your products",
-      img: "/images/farmer.jpg",
+      img: "/img/farmer.jpg",
     },
     {
       id: "distributor",
       label: "Distributor 🚚",
       desc: "Manage logistics",
-      img: "/images/distributor.jpg",
+      img: "/img/packager.jpg",
     },
     {
       id: "retailer",
       label: "Retailer 🏬",
       desc: "Track supply chain",
-      img: "/images/retailer.jpg",
+      img: "/img/retailer.jpg",
     },
     {
       id: "customer",
       label: "Customer 🛒",
       desc: "Verify authenticity",
-      img: "/images/customer.jpg",
+      img: "/img/customer.jpg",
     },
   ];
 
@@ -183,7 +186,7 @@ export default function Dashboard() {
                       className="absolute inset-0 w-full h-full object-cover opacity-80"
                     />
                     {/* Overlay */}
-                    <div className="absolute inset-0 bg-black bg-opacity-40" />
+                    <div className="absolute inset-0 bg-black bg-opacity-40 opacity-30" />
                     {/* Text content */}
                     <div className="relative p-6 text-white z-10">
                       <span className="block text-3xl font-bold">

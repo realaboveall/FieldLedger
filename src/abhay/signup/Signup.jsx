@@ -41,9 +41,9 @@ function Signup() {
     }));
   };
 
-  useEffect(() => {
-    console.log(details);
-  }, [details]);
+  // useEffect(() => {
+  //   console.log(details);
+  // }, [details]);
 
   const handleSubmit = (e) => {
     // Add signup logic
