@@ -6,7 +6,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import ProductDetailsForm from "./ProductDetailsForm";
 import PreviousTransactions from "./PreviousTransactions";
-import Chatbox from "./Chatbox";
+import Chatbox from "./ChatBox";
 import { useUser } from "@/auth/UserContext";
 
 export default function Dashboard() {
