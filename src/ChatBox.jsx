@@ -193,6 +193,44 @@ export default function Chatbox({ defaultMode = "chat" }) {
         saveChatLogsLocal(inner.cid, allMsgs);
         return;
       }
+      if (mode === "update") {
+        const CID_REGEX = /[a-zA-Z0-9]{46,59}/;
+        const match = userMsg.content.match(CID_REGEX);
+
+        // Step 1: User provides CID (no product yet)
+        if (match && !inner?.product) {
+          const cid = match[0];
+          const updateMsg = {
+            role: "assistant",
+            content: `📦 CID received: ${cid}\nNow tell me what you want to update (e.g., "price: 200").`,
+          };
+          setMessages([...newMessages, updateMsg]);
+          return;
+        }
+
+        // Step 2: Backend returns updated product + new CID
+        if (inner?.cid && inner?.product) {
+          const finalMsg = {
+            role: "assistant",
+            content:
+              `♻️ Product updated successfully!\n\n` +
+              `🔗 New CID: ${inner.cid}\n🌐 [View on IPFS](${inner.gatewayUrl})`,
+            qrDataUrl: inner.qrDataUrl || null,
+          };
+          const allMsgs = [...newMessages, finalMsg];
+          setMessages(allMsgs);
+
+          // Save locally
+          saveTransactionLocal({
+            cid: inner.cid,
+            product: inner.product,
+            messages: allMsgs,
+            createdAt: new Date().toISOString(),
+          });
+          saveChatLogsLocal(inner.cid, allMsgs);
+          return;
+        }
+      }
 
       // ✅ Normal reply (Chat mode / Fallback)
       const assistantMsg = {

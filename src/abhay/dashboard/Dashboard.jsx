@@ -10,15 +10,9 @@ import Chatbox from "./Chatbox";
 import { useUser } from "@/auth/UserContext";
 
 export default function Dashboard() {
-  const { user, loading, logout, saveUserLocal, loadUserLocal } = useUser();
+  const { user, loading, logout } = useUser();
   const [page, setPage] = useState("Form");
-
-  // 🔹 Try restoring role from context/localStorage
-  const [role, setRole] = useState(() => {
-    const stored = loadUserLocal();
-    return stored?.role || null;
-  });
-
+  const [role, setRole] = useState(() => localStorage.getItem("role") || null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +35,9 @@ export default function Dashboard() {
     );
   }
 
-  // Display user info safely
+  // --------------------------
+  // User display formatting
+  // --------------------------
   const displayName = user?.isWallet
     ? user.address
       ? `${user.address.slice(0, 6)}...${user.address.slice(-4)}`
@@ -58,13 +54,30 @@ export default function Dashboard() {
     displayEmailOrAddress,
   };
 
+  // --------------------------
+  // Role handling
+  // --------------------------
+  const roleLabels = {
+    farmer: { label: "Farmer 👩‍🌾", color: "green" },
+    distributor: { label: "Distributor 🚚", color: "blue" },
+    retailer: { label: "Retailer 🏬", color: "purple" },
+    customer: { label: "Customer 🛒", color: "orange" },
+  };
+
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("role");
     navigate("/");
   };
 
-  // Role cards with images
+  const handleSwitchRole = () => {
+    localStorage.removeItem("role");
+    setRole(null);
+  };
+
+  // --------------------------
+  // Role cards
+  // --------------------------
   const roles = [
     {
       id: "farmer",
@@ -106,6 +119,7 @@ export default function Dashboard() {
         }}
         setPage={setPage}
         page={page}
+        highlightColor={roleLabels[role]?.color || "gray"} // 🎨 role-based sidebar highlight
       />
 
       <SidebarInset>
@@ -116,6 +130,32 @@ export default function Dashboard() {
         />
 
         <div className="flex flex-1 flex-col p-10">
+          {/* --- Welcome Header --- */}
+          {role && (
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Welcome back, AboveAll!
+                </h2>
+                <p className="text-sm text-gray-500">
+                  0xe97939c9e0d2c473119a7db694f1b7d830ad104e
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span
+                  className={`px-4 py-1 rounded-full text-sm font-medium bg-${roleLabels[role].color}-100 text-${roleLabels[role].color}-800`}>
+                  {roleLabels[role].label}
+                </span>
+                <button
+                  onClick={handleSwitchRole}
+                  className="px-3 py-1 text-sm rounded-lg bg-gray-200 hover:bg-green-500 hover:text-white transition-colors">
+                  Switch Role
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* --- Role Selection / Role-Specific Dashboard --- */}
           {!role ? (
             // --- Role selection screen ---
             <div className="flex flex-col items-center justify-center flex-1 space-y-8">
@@ -131,21 +171,20 @@ export default function Dashboard() {
                     key={r.id}
                     onClick={() => {
                       setRole(r.id);
-                      // ✅ Save richer details in context/localStorage
-                      saveUserLocal({
-                        ...safeUser,
-                        role: r.id,
-                      });
+                      localStorage.setItem("role", r.id);
                     }}
                     className="relative h-[40vh] rounded-3xl shadow-lg overflow-hidden 
                                hover:shadow-2xl hover:border-green-500 transform hover:-translate-y-1 
                                transition-all flex flex-col justify-end text-left">
+                    {/* Background image */}
                     <img
                       src={r.img}
                       alt={r.label}
                       className="absolute inset-0 w-full h-full object-cover opacity-80"
                     />
+                    {/* Overlay */}
                     <div className="absolute inset-0 bg-black bg-opacity-40" />
+                    {/* Text content */}
                     <div className="relative p-6 text-white z-10">
                       <span className="block text-3xl font-bold">
                         {r.label}
