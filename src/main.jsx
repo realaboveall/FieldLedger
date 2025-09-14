@@ -14,7 +14,6 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 
-
 import Signup from "./abhay/signup/Signup";
 
 // ✅ Wagmi config
@@ -39,6 +38,7 @@ function App() {
               {/* ✅ Wrap the entire app so all children can use useUser */}
               <Router>
                 <Routes>
+                  <Route path="/Login" element={<Landingpage />} />
                   <Route path="/" element={<Landingpage />} />
                   <Route
                     path="/dashboard"
@@ -48,7 +48,7 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                    <Route path="/signup" element={<Signup />} />
+                  <Route path="/signup" element={<Signup />} />
                 </Routes>
               </Router>
             </UserProvider>
